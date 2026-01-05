@@ -1,31 +1,41 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
-public:
-    stack<int>st;
-    bool isPalindrome(ListNode* head) {
-        ListNode* temp=head;
-        while(temp!=nullptr){
-            st.push(temp->val);
-            temp=temp->next;
+private:
+    ListNode* getMid(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        temp=head;
-        while(temp!=nullptr){
-            if(temp->val==st.top()){
-                st.pop();
-                temp=temp->next;
-            }
-            else{
-                return false;
-            }
+        return slow;
+    }
+
+    ListNode* reverse(ListNode* head) {
+        ListNode* prev = nullptr;
+        while (head) {
+            ListNode* nextNode = head->next;
+            head->next = prev;
+            prev = head;
+            head = nextNode;
+        }
+        return prev;
+    }
+
+public:
+    bool isPalindrome(ListNode* head) {
+        if (!head || !head->next) return true;
+
+        ListNode* mid = getMid(head);
+        ListNode* second = reverse(mid->next);
+        mid->next = second;
+
+        ListNode* p1 = head;
+        ListNode* p2 = second;
+
+        while (p2) {
+            if (p1->val != p2->val) return false;
+            p1 = p1->next;
+            p2 = p2->next;
         }
         return true;
     }
