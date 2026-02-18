@@ -1,25 +1,20 @@
 class Solution {
 public:
     vector<int> toggleLightBulbs(vector<int>& bulbs) {
-        vector<int>ans;
-        unordered_map<int,int>mp;
-        for(int bulb:bulbs){
-            mp[bulb]=0;
+        vector<int> freq(101, 0);
+        
+        for(int x : bulbs) {
+            freq[x]++;
         }
-        for(int bulb:bulbs){
-            if(mp[bulb]==0){
-                mp[bulb]=1;
-            }
-            else{
-                mp[bulb]=0;
-            }
-        }
-        for(auto it:mp){
-            if(it.second==1){
-                ans.push_back(it.first);
+        
+        vector<int> ans;
+        
+        for(int i = 1; i <= 100; i++) {
+            if(freq[i] % 2 == 1) {
+                ans.push_back(i);
             }
         }
-        sort(ans.begin(),ans.end());
+        
         return ans;
     }
 };
