@@ -1,22 +1,19 @@
 class Solution {
 public:
     int countBinarySubstrings(string s) {
-        vector<int>group(s.size());
-        int idx=0;
-        group[0]=1;
+        int prev=0;
+        int curr=1;
+        int res=0;
         for(int i=1;i<s.size();i++){
-            if(s[i-1]!=s[i]){
-                idx++;
-                group[idx]=1;
+            if(s[i]==s[i-1]){
+                curr++;
             }
             else{
-                group[idx]++;
+                res+=min(prev,curr);
+                prev=curr;
+                curr=1;
             }
         }
-        int cnt=0;
-        for(int i=1;i<s.size();i++){
-            cnt+=min(group[i-1],group[i]);
-        }
-        return cnt;
+        return res+min(prev,curr);
     }
 };
