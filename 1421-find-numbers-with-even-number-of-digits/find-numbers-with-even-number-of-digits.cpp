@@ -1,17 +1,19 @@
 class Solution {
 public:
-    int findNumbers(vector<int>& nums) {
+    int tellCnt(int n){
+        if(n<10) return 1;
         int cnt=0;
-        for(int num:nums){
-            int digit=0;
-            while(num>0){
-                num/=10;
-                digit++;
-            }
-            if(digit%2==0){
-                cnt++;
-            }
+        while(n>0){
+            n=n/10;
+            cnt++;
         }
         return cnt;
+    }
+    int findNumbers(vector<int>& nums) {
+        int ans=0;
+        for(int n:nums){
+            if( tellCnt(n)%2==0) ans++;
+        }
+        return ans;
     }
 };
